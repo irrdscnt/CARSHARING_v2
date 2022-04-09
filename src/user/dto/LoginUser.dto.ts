@@ -1,8 +1,11 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
+import { Trim } from "class-sanitizer";
+import { IsEmail, IsString } from "class-validator";
 
-export class LoginUserDto{
+export class LoginDto {
+    @Trim()
     @IsEmail()
-    email:string;
-    @IsNotEmpty()
-    password:string;
-}
+    public readonly email: string;
+  
+    @IsString()
+    public readonly password: string;
+  }
