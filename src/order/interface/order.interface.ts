@@ -1,10 +1,13 @@
+import { User } from "src/user/interface";
+
 export class IOrder{
-    orderId:string;
+    orderId?:string;
     name: string;
+    user?:User;
     phone: string;
     startDate: Date;
-    endDate: Date;
+    endDate?: Date;
     carId: number;
-    totalPrice: number;
+    totalPrice?: number;
     tariff?:number;
 } 

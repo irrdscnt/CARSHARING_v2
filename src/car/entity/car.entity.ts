@@ -1,5 +1,5 @@
 import { OrderEntity } from "src/order/entity";
-import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class CarEntity {
@@ -18,7 +18,7 @@ export class CarEntity {
     @Column()
     VIN:string;
 
-    @OneToMany(() => OrderEntity, (order) => order.orderId) 
+    @OneToMany(() => OrderEntity, (order) => order.car)
     orders: OrderEntity[]
 
 }

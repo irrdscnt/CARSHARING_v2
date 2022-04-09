@@ -27,7 +27,7 @@ export class CarService {
     }
 
     async findCarId(carId: number) {
-        const id = this.regRep.find({carId})
+        const id = this.regRep.findOne({carId})
         if (!id) {
             throw new BadRequestException(400,'This car ID does not exist!');
         }else{

@@ -1,15 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { OrderEntity } from './order/entity';
 import { OrderModule } from './order/order.module';
 import { CarModule } from './car/car.module';
-import { UserModule } from './user/user.module';
 import { CarEntity } from './car/entity';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv'
+import { UserEntity } from './user/entity';
+import { UserModule } from './user/user.module';
 
 dotenv.config()
 @Module({
@@ -22,11 +20,11 @@ dotenv.config()
       username:process.env.POSTGRES_USER,
       password:process.env.POSTGRES_PASSWORD,
       database:process.env.POSTGRES_DATABASE,
-      entities:[OrderEntity,CarEntity],
+      entities:[OrderEntity,CarEntity,UserEntity],
       //autoLoadEntities:true,
       synchronize:true,
-    }),OrderModule, CarModule, UserModule, AuthModule],
-  controllers: [AppController],
-  providers: [AppService, AuthService],
+    }),OrderModule, CarModule, AuthModule, UserModule],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

@@ -1,10 +1,15 @@
 import { CarEntity } from "src/car/entity";
+import { UserEntity } from "src/user/entity";
+import { User } from "src/user/interface";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class OrderEntity {
     @PrimaryGeneratedColumn("uuid")
     orderId?:string; 
+
+    // @Column()
+    // user:User;
 
     @Column({nullable:true})
     tariff?:number;
@@ -24,24 +29,16 @@ export class OrderEntity {
     @Column()
     carId:number;
 
-    // @Column({nullable:true})
-    // brand?:string;
-
-    // @Column({nullable: true})
-    // model?:string;
-
-    // @Column({nullable:true})
-    // carNum?:string;
-
-    // @Column({nullable:true})
-    // VIN?:string;
-
     @Column({nullable:true})
-    totalPrice?:number;
+    totalPrice?:number; 
 
     @ManyToOne(() => CarEntity, (car) => car.orders)
     @JoinColumn()
     car: CarEntity
+
+    @ManyToOne(()=> UserEntity,(userEntity)=>userEntity.orders)
+    @JoinColumn()
+    user:UserEntity;
    
 
     

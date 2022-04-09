@@ -1,14 +1,13 @@
 import {  BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { DeleteResult, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, Repository } from 'typeorm';
+import { DeleteResult, LessThan, MoreThan, Repository } from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm'
 import { OrderEntity } from './entity';
 import { CreateOrderDto,} from './dto';
 import { from, Observable } from 'rxjs';
-import { IOrder } from './interface';
 import { CarService } from 'src/car/car.service';
-import { CarEntity } from 'src/car/entity';
+import { User } from 'src/user/interface';
 
-@Injectable()
+@Injectable() 
 export class OrderService {
   constructor(@InjectRepository(OrderEntity)
   private readonly regRep:Repository<OrderEntity>,
@@ -68,21 +67,10 @@ export class OrderService {
     return days;
   }
   
-  async create(dto: CreateOrderDto) {
+  async create(user:User,dto: CreateOrderDto) {
     const { name, phone, carId,tariff} = dto;
     const { startDate, endDate } = dto;
-    // const enddate=new Date(dto.endDate)
-    // const startdate=new Date(dto.startDate)
-    // const isAvailable= await this.regRep.find({
-    //   where:{
-    //     carId:dto.carId,
-    //     startDate:LessThanOrEqual(enddate),
-    //     endDate:MoreThanOrEqual(startdate)
-    //   }
-    // })
-    // if (isAvailable.length>0){
-    //   throw new BadRequestException(400,'this date is already taken!')
-    // }
+
     let dayscount=await this.daysCount(startDate,endDate)
     console.log(dayscount)
     switch (tariff){
@@ -101,29 +89,24 @@ export class OrderService {
     }
   
     if(dayscount>=3 && dayscount<=5){
-      //console.log(dto.totalPrice)
       let skidka=dto.totalPrice*0.05;
-      //console.log(skidka)
-      dto.totalPrice=dto.totalPrice-skidka;
-      //console.log(dto.totalPrice)
+      dto.totalPrice=Math.round(dto.totalPrice-skidka);
     }
     if(dayscount>5 && dayscount<=14){
-      //console.log(dto.totalPrice)
       let skidka=dto.totalPrice*0.1;
-      //console.log(skidka)
-      dto.totalPrice=dto.totalPrice-skidka;
-      //console.log(dto.totalPrice)
+      dto.totalPrice=Math.round(dto.totalPrice-skidka);
+      
     }
     if(dayscount>15 && dayscount<=30){
       console.log(dto.totalPrice)
       let skidka=dto.totalPrice*0.15;
       console.log(skidka)
-      dto.totalPrice=dto.totalPrice-skidka;
+      dto.totalPrice=Math.round(dto.totalPrice-skidka);
       console.log(dto.totalPrice)
     }
 
-    const exist = this.carService.findCarId(carId);
-    if (!exist) {
+    const car = await this.carService.findCarId(dto.carId);
+    if (!car) {
       throw new ConflictException();
     }
     
@@ -138,8 +121,8 @@ export class OrderService {
     dto.startDate = startDate;
     dto.endDate = endDate;
     dto.carId = carId;
-    
-    const order = this.regRep.create(dto);
+    dto.user=user;
+    const order = this.regRep.create({...dto, car});
     return this.regRep.save(order)
   }
 

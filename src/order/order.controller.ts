@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards,Request } from '@nestjs/common';
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { DeleteResult } from 'typeorm';
 import { CreateOrderDto} from './dto';
 import { OrderService } from './order.service';
@@ -14,26 +15,18 @@ export class OrderController {
         return this.service.findActive();
     }
 
+    @UseGuards(JwtGuard)
     @Post()
     @ApiCreatedResponse({ type: CreateOrderDto})
     @ApiConflictResponse({ description: 'already exist' })
-    create(@Body() reg:CreateOrderDto){
-    return this.service.create(reg);
+    create(@Body() reg:CreateOrderDto,@Request()req){
+    return this.service.create(req.user,reg);
     }
 
     @Get()
     findAll(){
         return this.service.findAll();
     }
-
-    // @Put(':id')
-    // @ApiCreatedResponse({ type: UpdateOrderDto })
-    // @ApiNotFoundResponse()
-    // update(
-    //     @Param('id')id:string,
-    //     @Body() reg:UpdateOrderDto){
-    //     return this.service.update(id,reg)
-    // }
 
     @Delete('clear')
     deleteAll() {
