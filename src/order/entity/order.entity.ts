@@ -14,6 +14,9 @@ export class OrderEntity {
     @Column({nullable:true})
     tariff?:number;
 
+    @Column({nullable:true})
+    wholekm?:number;
+
     @Column({type:'text'})
     name:string;
 

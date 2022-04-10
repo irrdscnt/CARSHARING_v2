@@ -76,14 +76,20 @@ export class OrderService {
     switch (tariff){
       case 1:
         let price1=270;
+        let km1=200
+        dto.wholekm=km1*dayscount
         dto.totalPrice=price1*dayscount
       break;
       case 2:
         let price2=330
+        let km2=350
+        dto.wholekm=km2*dayscount
         dto.totalPrice=price2*dayscount
       break;
       case 3:
         let price3=390
+        let km3=500
+        dto.wholekm=km3*dayscount
         dto.totalPrice=price3*dayscount
       break;
     }
@@ -100,9 +106,7 @@ export class OrderService {
     if(dayscount>15 && dayscount<=30){
       console.log(dto.totalPrice)
       let skidka=dto.totalPrice*0.15;
-      console.log(skidka)
       dto.totalPrice=Math.round(dto.totalPrice-skidka);
-      console.log(dto.totalPrice)
     }
 
     const car = await this.carService.findCarId(dto.carId);
@@ -114,14 +118,12 @@ export class OrderService {
     if (res.length !== 0) {
       throw new BadRequestException(400, '3 days must pass from past rent before you can rent new');
     }
-    
     dto.tariff=tariff
     dto.name = name;
     dto.phone = phone;
     dto.startDate = startDate;
     dto.endDate = endDate;
     dto.carId = carId;
-    dto.user=user;
     const order = this.regRep.create({...dto, car});
     return this.regRep.save(order)
   }

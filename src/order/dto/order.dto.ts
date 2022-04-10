@@ -17,11 +17,11 @@ export class CreateOrderDto{
     @Length(1,20)
     name: string;
 
-    @ApiPropertyOptional({
-        description: 'Username',
-        example: 'John',
-    })
-    user?:User;
+    // @ApiPropertyOptional({
+    //     description: 'Username',
+    //     example: 'John',
+    // })
+    // user?:User;
 
     @ApiProperty({
         description:'Tariff',
@@ -29,6 +29,12 @@ export class CreateOrderDto{
     })
     @IsNotEmpty()
     tariff?:number;
+
+    @ApiPropertyOptional({
+        description: 'Whole kilometrage',
+        example: '1000',
+    })
+    wholekm?:number;
 
     @ApiProperty({
         description: 'Phone number',
