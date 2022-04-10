@@ -27,7 +27,7 @@ export class CarService {
     }
 
     async findCarId(carId: number) {
-        const id = this.regRep.findOne({carId})
+        const id = await this.regRep.findOne({carId})
         if (!id) {
             throw new BadRequestException(400,'This car ID does not exist!');
         }else{
@@ -38,9 +38,9 @@ export class CarService {
         const {carNum,brand,model}=dto;
         
         if (carId){
-            const car=this.regRep.find({carId});
+            const car=await this.regRep.find({carId});
             if(!car){
-                throw new BadRequestException(400,'This docId does not exist!')
+                throw new BadRequestException(400,'This car ID does not exist!')
             }
             Object.assign(carId, dto);  
         }
