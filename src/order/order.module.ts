@@ -9,10 +9,11 @@ import { CarEntity } from 'src/car/entity';
 import { CarController } from 'src/car/car.controller';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserEntity } from 'src/user/entity';
+import { UserService } from 'src/user/user.service';
 
 @Module({
   imports:[TypeOrmModule.forFeature([OrderEntity,CarEntity,UserEntity]),CarModule,AuthModule],
-  providers: [OrderService,CarService],
+  providers: [OrderService,CarService,UserService],
   controllers: [OrderController,CarController]
 })
 export class OrderModule {}
