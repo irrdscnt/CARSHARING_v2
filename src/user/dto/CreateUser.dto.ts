@@ -1,4 +1,5 @@
 import { IsString } from "class-validator";
+import { Role } from "../entity/role.enum";
 import { LoginDto } from "./LoginUser.dto";
 
 export class CreateUserDto extends LoginDto{
@@ -13,4 +14,10 @@ export class CreateUserDto extends LoginDto{
 
     @IsString()
     password:string;
+
+    // @IsString()
+    role?:Role;
+
+    
+    // isAdmin:boolean;
 }

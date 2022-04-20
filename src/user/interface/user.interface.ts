@@ -1,4 +1,5 @@
 import { IOrder } from "src/order/interface";
+import { Role } from "../entity/role.enum";
 
 export class User{
     id?:number;
@@ -6,4 +7,5 @@ export class User{
     email?:string;
     password?:string;
     orders?:IOrder[];
+    role?:Role;
 }
