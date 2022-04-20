@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv'
 import { UserEntity } from './user/entity';
 import { UserModule } from './user/user.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 dotenv.config()
 @Module({
@@ -23,7 +24,7 @@ dotenv.config()
       entities:[OrderEntity,CarEntity,UserEntity],
       //autoLoadEntities:true,
       synchronize:true,
-    }),OrderModule, CarModule, AuthModule, UserModule],
+    }),OrderModule, CarModule, AuthModule, UserModule, StatisticsModule],
   controllers: [],
   providers: [],
 })
