@@ -24,7 +24,7 @@ dotenv.config()
       entities:[OrderEntity,CarEntity,UserEntity],
       //autoLoadEntities:true,
       synchronize:true,
-    }),OrderModule, CarModule, AuthModule, UserModule, StatisticsModule],
+    }),OrderModule, CarModule, AuthModule, UserModule],
   controllers: [],
   providers: [],
 })
